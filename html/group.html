@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/css/main.css">
+
+
+    <title>Ansible</title>
+
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <!-- <header class="shadow"> -->
+    <header class="shadow">
+        <nav class="navbar navbar-expand-md navbar-dark bg-info sticky-top">
+            <a href="#" class="navbar-brand">OpsWeb</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse pl-2" id="navbarNav">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/index.html">主面板 </a>
+                    </li>
+                    <li class="nav-item dropdown active">
+                        <a href="" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Inventory
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/host.html">主机资源</a>
+                            <a class="dropdown-item" href="/group.html">主机组资源</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/adhoc.html">Ad-Hoc</a>
+                    </li>
+                    <!-- <li class="nav-item">
+                        <a class="nav-link" href="/playbook.html">Playbook</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Reports
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/host.html">资源日志</a>
+                            <a class="dropdown-item" href="/group.html">Ad-hoc日志</a>
+                            <a class="dropdown-item" href="/group.html">Playbook日志</a>
+                        </div>
+                    </li> -->
+                </ul>
+            </div>
+            <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+                <!-- <li class="nav-item">
+                        <a class="nav-link p-2" href="#">extra</a>
+                    </li> -->
+                <li class="nav-item dropdown">
+                    <a class="nav-item nav-link dropdown-toggle mr-md-2" href="#" id="user-opt" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">user
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="user-opt">
+                        <!-- <a class="dropdown-item" href="/profile.html">profile</a> -->
+                        <a class="dropdown-item" href="/setting.html">setting</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="javascript:void(0);" onclick="userLogout();">logout</a>
+                    </div>
+
+
+                </li>
+            </ul>
+        </nav>
+
+    </header>
+    <!-- </header> -->
+
+
+    <div class="container-fluid">
+
+            <main class="mx-md-5 mx-sm-1 px-md-2 px-sm-1">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h3 class="h4">主机组资源</h3>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <div class="btn-group mr-2">
+                            <button type="button" class="btn btn-sm btn-outline-info" onclick="groupInfo();">添加</button>
+                            <!-- <button type="button" class="btn btn-sm btn-outline-info" onclick="hostAdd('batch');">批量添加</button> -->
+                        </div>
+                        <!-- <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+                            <span data-feather="calendar"></span>
+                            This week
+                        </button> -->
+                    </div>
+                </div>
+                <div class="bg-light px-md-3 py-md-3">
+                    <div class="alert alert-dismissible fade show d-none" role="alert">
+                        <span id="alert-text"></span>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+
+                    </div>
+                    <div class="row">
+                        <div class="pb-md-4 pb-sm-1 col-md-6 col-sm-4">
+                            <select name="page_size" id="page_size">
+                                <option value="10" selected>10</option>
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                                <!-- <option value="50">50</option>
+                                <option value="100">100</option> -->
+                            </select>
+                            <span class="text-secondary ml-md-3 ml-sm-1">records per page</span>
+                        </div>
+                        <div class="float-md-right col-md-6 col-sm-8">
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" placeholder="Groupname" aria-label="Recipient's username"
+                                    aria-describedby="basic-addon2">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="button">search</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="table table-hover table-text w-100 text-center">
+                        <thead>
+                            <tr>
+                                <th scope="col">组名</th>
+                                <th scope="col">描述</th>
+                                <th scope="col">编辑</th>
+                                <th scope="col">删除</th>
+                            </tr>
+                        </thead>
+                        <tbody id="group_tbody">
+                            <tr>
+                                <!-- <th scope="row" style="width: 9px;">
+                                    <a href="#">>></a>
+                                </th> -->
+                                <td>group</td>
+                                <td>desc</td>
+                                <td>edit</td>
+                                <td>del</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <nav aria-label="Page navigation example">
+                        <div>
+                            <span class="text-secondary">show <span class="font-weight-bold" id="cur-start"></span> to
+                                <span class="font-weight-bold" id="cur-end"></span> of <span class="font-weight-bold"
+                                    id="cur-count"></span> entries</span>
+                        </div>
+                        <ul class="pagination justify-content-end">
+                            <li class="page-item " id="prev-li">
+                                <a class="page-link" href="javascript:void(0);" onclick="getPageData(this);" tabindex="-1"
+                                    id="previous">上一页</a>
+                            </li>
+                            <!-- <li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a></li>
+                            <li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>
+                            <li class="page-item"><a class="page-link" href="javascript:void(0);">3</a></li> -->
+                            <li class="page-item" id="home-li">
+                                <a class="page-link" href="javascript:void(0);" onclick="getPageData(this);" id="home">首页</a>
+                            </li>
+
+                            <li class="page-item" id="next-li">
+                                <a class="page-link" href="javascript:void(0);" onclick="getPageData(this);" id="next">下一页</a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <!-- <div class="pt-md-4 pt-sm-1">
+                        <div class="text-secondary">
+                            Showing 1 to 10 of 57 entries
+                        </div>
+                        <div class="float-right">
+                            
+                        </div>
+                    </div> -->
+
+                </div>
+
+
+            </main>
+    </div>
+
+
+
+    <footer>
+
+    </footer>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="static/js/jquery.min.js"></script>
+    <script src="static/js/popper.min.js"></script>
+    <script src="static/js/bootstrap.min.js"></script>
+    <!-- <script src="static/js/bootstrap-confirmation.js"></script> -->
+    <script src="static/js/main.js"></script>
+
+    <script>
+        // 跳转添加主机页面
+        function groupInfo() {
+            window.location.href = "/groupinfo.html?type=add";
+        }
+
+        // ajax 获取分页数据方法
+        function ajaxPageData(pg) {
+            let user_token = getCookie("user_token");
+            let init_url = "http://172.16.1.121:8080/api/asb/group/?token=" + user_token;
+            let pg_size = $("#page_size").val();
+            let page = parseInt(pg);
+            let page_size = parseInt(pg_size);
+            let url = init_url + "&size=" + page_size + "&page=" + page;
+            // console.log(url);
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                // async: false,
+                // contentType: "application/json; charset=utf-8",
+                // data: JSON.stringify({
+                //     "username": username,
+                //     "password": password
+                // }),
+                success: function (res) {
+                    let html = "";
+                    $.each(res.results, function (indexInArray, valueOfElement) {
+
+                        html += '<tr group="' + valueOfElement.id + '">';
+                        // '"><th scope="row" style="width: 10px;"><a href="#">>></a></th>';
+                        html += '<td>' + valueOfElement.name + '</td>';
+                        html += '<td>' + valueOfElement.desc + '</td>';
+                        html +=
+                            '<td><a href="javascript:void(0);" onclick="editGroup(this);">Edit</a></td>';
+                        html +=
+                            '<td><a href="javascript:void(0);" onclick="deleteGroup(this);">Delete</a></td>';
+                        html += '</tr>';
+                    });
+                    $("#group_tbody").html(html);
+                    // 上一页下一页，首页
+                    if (res.previous == null) {
+                        $("#prev-li").addClass("disabled");
+                    } else {
+                        $("#prev-li").removeClass("disabled");
+                        $("#previous").attr("page", page - 1);
+                    }
+                    if (res.next == null) {
+                        $("#next-li").addClass("disabled");
+                    } else {
+                        $("#next-li").removeClass("disabled");
+                        $("#next").attr("page", page + 1);
+                    }
+                    $("#home").attr("page", 1);
+
+                    if (page == 1) {
+                        var cur_start = 1;
+                        var cur_end = res.results.length;
+                    } else {
+                        var cur_start = page_size * (page - 1);
+                        var cur_end = cur_start + res.results.length;
+                    }
+                    // console.log(cur_start, cur_end);
+                    $("#cur-start").text(cur_start);
+                    $("#cur-end").text(cur_end);
+                    $("#cur-count").text(res.count);
+                },
+                error: function (e) {
+                    // console.log("faield:",e);
+                    if (e.status == 403) {
+                        delCookie("username");
+                        delCookie("user_alias");
+                        delCookie("user_token");
+                        showAlert("token已失效，请重新登录，正在跳转...");
+                        setTimeout(function () {
+                            window.location.href = "/login.html";
+                        }, 1500);
+
+                    } else {
+                        showAlert("Error: 未知错误.")
+                    }
+                }
+            });
+        }
+
+        // 删除主机链接
+        function deleteGroup(obj) {
+            let message = confirm("确定删除？");
+            if (message == true) {
+                let this_tr = $(obj).parent().parent();
+                let group_id = $(this_tr).attr("group");
+                let user_token = getCookie("user_token");
+                let init_url = "http://172.16.1.121:8080/api/asb/group/" + group_id + "/?token=" + user_token;
+                $.ajax({
+                    url: init_url,
+                    type: 'delete',
+                    success: function (res) {
+                        showAlert("Deleted!", level = "alert-success");
+                        $(this_tr).addClass("d-none");
+                    },
+                    error: function (e) {
+                        showAlert("Error: ", e);
+                    }
+                });
+                console.log(host_id);
+            } else {
+                return false;
+            }
+        }
+
+        // 编辑主机链接
+        function editGroup(obj) {
+            let this_tr = $(obj).parent().parent();
+            let group_id = $(this_tr).attr("group");
+            window.location.href = "/groupinfo.html?type=edit&id=" + group_id;
+        }
+
+        // 翻页按钮触发方法
+        function getPageData(obj) {
+            let page = $(obj).attr("page");
+            // console.log('hhhhhhhhhhh', url);
+            ajaxPageData(page);
+        }
+
+        $(document).ready(function () {
+            // 检查是否登录，若没有登录则跳转到登录页面
+            checkCookie();
+
+            // 用户名
+            var user_alias = getCookie("user_alias");
+            $("#user-opt").text(user_alias);
+            // 鼠标悬浮显示二级菜单 
+            $(".dropdown").mouseover(function () {
+                $(this).addClass("show");
+                $(this).children(".dropdown-menu").addClass("show");
+            })
+            $(".dropdown").mouseleave(function () {
+                $(this).removeClass("show");
+                $(this).children(".dropdown-menu").removeClass("show");
+            })
+
+            // 初始访问页面获取一次数据
+            ajaxPageData(1);
+
+
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/css/main.css">
+
+
+    <title>Ansible</title>
+
+    <style>
+        select.form-control[multiple] {
+            height: 10rem;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <header class="shadow"> -->
+    <header class="shadow">
+        <nav class="navbar navbar-expand-md navbar-dark bg-info sticky-top">
+            <a href="#" class="navbar-brand">OpsWeb</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse pl-2" id="navbarNav">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/index.html">主面板 </a>
+                    </li>
+                    <li class="nav-item dropdown active">
+                        <a href="" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Inventory
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/host.html">主机资源</a>
+                            <a class="dropdown-item" href="/group.html">主机组资源</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/adhoc.html">Ad-Hoc</a>
+                    </li>
+                    <!-- <li class="nav-item">
+                        <a class="nav-link" href="/playbook.html">Playbook</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Reports
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/host.html">资源日志</a>
+                            <a class="dropdown-item" href="/group.html">Ad-hoc日志</a>
+                            <a class="dropdown-item" href="/group.html">Playbook日志</a>
+                        </div>
+                    </li> -->
+                </ul>
+            </div>
+            <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+                <!-- <li class="nav-item">
+                        <a class="nav-link p-2" href="#">extra</a>
+                    </li> -->
+                <li class="nav-item dropdown">
+                    <a class="nav-item nav-link dropdown-toggle mr-md-2" href="#" id="user-opt" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">user
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="user-opt">
+                        <!-- <a class="dropdown-item" href="/profile.html">profile</a> -->
+                        <a class="dropdown-item" href="/setting.html">setting</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="javascript:void(0);" onclick="userLogout();">logout</a>
+                    </div>
+
+
+                </li>
+            </ul>
+        </nav>
+
+    </header>
+    <!-- </header> -->
+
+
+    <div class="container-fluid">
+
+        <main class="mx-md-5 mx-sm-1 px-md-2 px-sm-1">
+            <section id="single">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h3 class="h4" id="container-title">添加主机组</h3>
+                </div>
+                <div class="bg-light px-md-3 py-md-3" id="group_table">
+                    <div class="alert alert-dismissible fade show d-none" role="alert">
+                        <span id="alert-text"></span>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+
+                    </div>
+                    <div class="container">
+                        <form class="d-inline">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">主机组名称</span>
+                                </div>
+                                <input type="text" class="form-control" aria-label="Default" id="name">
+                            </div>
+                            <div class="input-group mb-3 ">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">主机组描述</span>
+                                </div>
+                                <textarea type="text" class="form-control " aria-label="With textarea" id="desc"></textarea>
+                            </div>
+                            <div class="row d-none" id="host_select">
+                                <div class="col-8 input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">主机组成员</span>
+                                    </div>
+                                    <select multiple class="form-control" id="inside">
+                                        <!-- <option value="">1</option> -->
+                                    </select>
+                                </div>
+                                <div class="col-4 text-center m-auto">
+                                    <button type="button" class="btn btn-dark" id="delete">删除</button><br><br>
+                                    <button type="button" class="btn btn-dark" id="add" data-toggle="modal" data-target="#exampleModal"
+                                        data-whatever="@mdo">添加</button>
+                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">请输入主机名，以逗号分隔</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form>
+                                                        <div class="form-group">
+                                                            <!-- <label for="message-text" class="col-form-label"></label> -->
+                                                            <textarea class="form-control" id="host-text" placeholder="host1,host2.."></textarea>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                                                    <button type="button" class="btn btn-primary" id="check_host">添加</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <button type="button" class="btn btn-info" id="submit">提交</button>
+                                <button type="button" class="btn btn-info d-none" id="update">更新</button>
+                                <input type="reset" class="btn btn-secondary mx-md-3 mx-sm-1" value="重置">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+
+
+    <footer>
+
+    </footer>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="static/js/jquery.min.js"></script>
+    <script src="static/js/popper.min.js"></script>
+    <script src="static/js/bootstrap.min.js"></script>
+    <script src="static/js/main.js"></script>
+
+    <script>
+        // 获取url参数
+        function getQueryVariable(variable) {
+            var query = window.location.search.substring(1);
+            var vars = query.split("&");
+            for (var i = 0; i < vars.length; i++) {
+                var pair = vars[i].split("=");
+                if (pair[0] == variable) {
+                    return pair[1];
+                }
+            }
+            return (false);
+        }
+
+        // 添加、修改主机信息
+        function uploadHostInfo(action) {
+            let user_token = getCookie("user_token");
+            let name = $("#name").val();
+            let desc = $("#desc").val();
+            let username = getCookie("username");
+            // let groups = $("#groups_input").val();
+            let data = {
+                "name": name,
+                "desc": desc,
+                "create_user": username,
+                // "groups": groups
+            };
+            if (action == "add") {
+                data.create_time = null;
+                var method = "POST";
+                var init_url = "http://172.16.1.121:8080/api/asb/group/?token=" + user_token;
+            } else {
+                var param_id = getQueryVariable("id");
+                var method = "PUT";
+                var init_url = "http://172.16.1.121:8080/api/asb/group/" + param_id + "/?token=" + user_token;
+            }
+            // console.log(data);
+            $.ajax({
+                url: init_url,
+                type: method,
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(data),
+                success: function (res) {
+                    // console.log(res);
+                    showAlert(name + " 信息提交成功", level = "alert-success");
+                },
+                error: function (e) {
+                    // console.log("error", e);
+                    let error_text = e.responseText;
+                    console.log(error_text);
+                    showAlert(error_text);
+                }
+            })
+        }
+
+        $(document).ready(function () {
+            // 检查是否登录，若没有登录则跳转到登录页面
+            checkCookie();
+
+            // 用户名
+            var user_alias = getCookie("user_alias");
+            $("#user-opt").text(user_alias);
+
+            // 鼠标悬浮显示二级菜单 
+            $(".dropdown").mouseover(function () {
+                $(this).addClass("show");
+                $(this).children(".dropdown-menu").addClass("show");
+            })
+            $(".dropdown").mouseleave(function () {
+                $(this).removeClass("show");
+                $(this).children(".dropdown-menu").removeClass("show");
+            })
+
+            // 判断页面显示添加主机还是编辑主机，type=single/batch/edit
+            var param_type = getQueryVariable("type");
+            if (param_type == 'edit') {
+                $("#container-title").text("编辑主机组信息");
+                var param_id = getQueryVariable("id");
+                $("#submit").addClass("d-none");
+                $("#update").removeClass("d-none");
+                $("#host_select").removeClass("d-none");
+                $("#name").attr("disabled", "disabled");
+                let user_token = getCookie("user_token");
+                let init_url = "http://172.16.1.121:8080/api/asb/group/" + param_id + "/?token=" + user_token;
+
+                $.ajax({
+                    url: init_url,
+                    type: "GET",
+                    success: function (res) {
+                        $("#name").val(res.name);
+                        $("#desc").val(res.desc);
+                        $.each(res.hosts, function (indexInArray, valueOfElement) {
+                            $("#inside").append('<option value="' + valueOfElement.name +
+                                '">' + valueOfElement.name + ' (' + valueOfElement.ip +
+                                ')</option>');
+                        });
+
+                    },
+                    error: function (e) {
+                        showAlert("获取主机信息失败", e);
+                    }
+                });
+            }
+
+            // 从组中删除主机
+            $("#delete").click(function () {
+                $("#inside option:selected").remove();
+            });
+
+            // 检查输入的主机名
+            $("#check_host").click(function () { 
+                console.log('test');
+                let user_token = getCookie("user_token");
+                let init_url = "http://172.16.1.121:8080/api/asb/checkhost/?token=" + user_token;
+                let hosts = $("#host-text").val();
+                let data = { "hosts": hosts };
+                $.ajax({
+                    url: init_url, 
+                    type: 'post',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(data),
+                    success: function(res) {
+                        if (res.code != 2000) {
+                            alert("主机"+res.host+"不存在");
+                        } else {
+                            $.each(res.host, function (indexInArray, valueOfElement) { 
+                                $("#inside").append('<option value="'+valueOfElement+'">'+ valueOfElement +'</option>');
+                            });
+                        }
+                    },
+                    error: function (e) { 
+                        alert('Error.', e);
+                     }
+                })
+             })
+
+            // 更新主机信息
+            $("#update").click(function () {
+                uploadHostInfo("edit");
+            });
+
+
+            // 提交按钮，添加主机
+            $("#submit").click(function () {
+                uploadHostInfo("add");
+            });
+
+        });
+    </script>
+</body>
+
+</html>

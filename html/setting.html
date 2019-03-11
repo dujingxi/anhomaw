@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/css/main.css">
+
+
+    <title>Ansible</title>
+
+    <style>
+        .custom-select {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="shadow">
+        <nav class="navbar navbar-expand-md navbar-dark bg-info sticky-top">
+            <a href="#" class="navbar-brand">OpsWeb</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse pl-2" id="navbarNav">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/index.html">主面板 </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Inventory
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/host.html">主机资源</a>
+                            <a class="dropdown-item" href="/group.html">主机组资源</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/adhoc.html">Ad-Hoc</a>
+                    </li>
+                    <!-- <li class="nav-item">
+                        <a class="nav-link" href="/playbook.html">Playbook</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Reports
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/host.html">资源日志</a>
+                            <a class="dropdown-item" href="/group.html">Ad-hoc日志</a>
+                            <a class="dropdown-item" href="/group.html">Playbook日志</a>
+                        </div>
+                    </li> -->
+                </ul>
+            </div>
+            <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+                <!-- <li class="nav-item">
+                    <a class="nav-link p-2" href="#">extra</a>
+                </li> -->
+                <li class="nav-item dropdown">
+                    <a class="nav-item nav-link dropdown-toggle mr-md-2" href="#" id="user-opt" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">user
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="user-opt">
+                        <!-- <a class="dropdown-item" href="/profile.html">profile</a> -->
+                        <a class="dropdown-item" href="/setting.html">setting</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="javascript:void(0);" onclick="userLogout();">logout</a>
+                    </div>
+
+
+                </li>
+            </ul>
+        </nav>
+
+    </header>
+
+    <!-- </header> -->
+
+
+    <div class="container-fluid">
+
+        <main class="mx-md-5 mx-sm-1 px-md-2 px-sm-1">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h3 class="h4">User Password Setup</h3>
+
+            </div>
+            <div class="bg-light px-md-3 py-md-3">
+                <div class="alert alert-dismissible fade show d-none" role="alert">
+                    <span id="alert-text"></span>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="container text-center">
+                    <form>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">用户名</span>
+                            </div>
+                            <input type="text" placeholder="" disabled class=" form-control" aria-label="Default" id="name">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">显示名</span>
+                            </div>
+                            <input type="text" placeholder="" class=" form-control" aria-label="Default" id="alias">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">所属组</span>
+                            </div>
+                            <input type="text" placeholder="" class=" form-control" aria-label="Default" id="group_name">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">邮箱</span>
+                            </div>
+                            <input type="text" placeholder="" class=" form-control" aria-label="Default" id="email">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">角色</span>
+                            </div>
+                            <input type="text" placeholder="" class=" form-control" aria-label="Default" id="role_name">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text text-danger">新密码</span>
+                            </div>
+                            <input type="password" placeholder="new password.." class=" form-control" aria-label="Default"
+                                id="passwd" required>
+                        </div>
+                        <button class="btn btn-info btn-block" id="submit" type="submit">
+                            提交
+                        </button>
+                        <!-- <button type="button" class="btn btn-info btn-block" id="submit">发送指令</button> -->
+                    </form>
+                </div>
+
+            </div>
+
+
+        </main>
+
+    </div>
+
+
+
+    <footer>
+
+    </footer>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="static/js/jquery.min.js"></script>
+    <script src="static/js/popper.min.js"></script>
+    <script src="static/js/bootstrap.min.js"></script>
+    <!-- <script src="static/js/bootstrap-confirmation.js"></script> -->
+    <script src="static/js/main.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            // 检查是否登录，若没有登录则跳转到登录页面
+            checkCookie();
+
+            // 显示用户名
+            var user_alias = getCookie("user_alias");
+            $("#user-opt").text(user_alias);
+
+            // 鼠标悬浮显示二级菜单 
+            $(".dropdown").mouseover(function () {
+                $(this).addClass("show");
+                $(this).children(".dropdown-menu").addClass("show");
+            })
+            $(".dropdown").mouseleave(function () {
+                $(this).removeClass("show");
+                $(this).children(".dropdown-menu").removeClass("show");
+            })
+
+            var user_token = getCookie("user_token");
+            var user_id = getCookie("user_id");
+
+            // 获取用户信息
+            $.ajax({
+                url: "http://172.16.1.121:8080/api/user/users/" + user_id + "/?token=" + user_token,
+                type: 'GET',
+                success: function (res) {
+                    // console.log(res);
+                    $("#name").val(res.name);
+                    $("#alias").val(res.alias);
+                    $("#group_name").val(res.group_name);
+                    $("#email").val(res.email);
+                    $("#role_name").val(res.role_name);
+                }
+            })
+
+            $("#submit").click(function () {
+                var new_pass = $("#passwd").val();
+                var name = $("#name").val();
+                var alias = $("#alias").val();
+                var group = $("#group_name").val();
+                var email = $("#email").val();
+                var role = $("#role_name").val();
+                var data = {
+                    "role": role,
+                    "user_group": group,
+                    "name": name,
+                    "passwd": new_pass,
+                    "alias": alias,
+                    "email": email
+                };
+                // console.log(data);
+                $.ajax({
+                    url: "http://172.16.1.121:8080/api/user/users/" + user_id + "/?token=" + user_token,
+                    type: 'PUT',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(data),
+                    success: function (res) {
+                        showAlert("update success.", level = "alert-success");
+                        
+                    },
+                    error: function (e) {
+                        let error_text = e.responseText;
+                        // console.log(error_text);
+                        showAlert(error_text);
+                    },
+                });
+
+            });
+        })
+    </script>
+</body>
+
+</html>

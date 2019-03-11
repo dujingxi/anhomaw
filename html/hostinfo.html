@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/css/main.css">
+
+
+    <title>Ansible</title>
+
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <!-- <header class="shadow"> -->
+    <header class="shadow">
+        <nav class="navbar navbar-expand-md navbar-dark bg-info sticky-top">
+            <a href="#" class="navbar-brand">OpsWeb</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse pl-2" id="navbarNav">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/index.html">主面板 </a>
+                    </li>
+                    <li class="nav-item dropdown active">
+                        <a href="" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Inventory
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/host.html">主机资源</a>
+                            <a class="dropdown-item" href="/group.html">主机组资源</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/adhoc.html">Ad-Hoc</a>
+                    </li>
+                    <!-- <li class="nav-item">
+                        <a class="nav-link" href="/playbook.html">Playbook</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Reports
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/host.html">资源日志</a>
+                            <a class="dropdown-item" href="/group.html">Ad-hoc日志</a>
+                            <a class="dropdown-item" href="/group.html">Playbook日志</a>
+                        </div>
+                    </li> -->
+                </ul>
+            </div>
+            <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+                <!-- <li class="nav-item">
+                        <a class="nav-link p-2" href="#">extra</a>
+                    </li> -->
+                <li class="nav-item dropdown">
+                    <a class="nav-item nav-link dropdown-toggle mr-md-2" href="#" id="user-opt" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">user
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="user-opt">
+                        <!-- <a class="dropdown-item" href="/profile.html">profile</a> -->
+                        <a class="dropdown-item" href="/setting.html">setting</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="javascript:void(0);" onclick="userLogout();">logout</a>
+                    </div>
+
+
+                </li>
+            </ul>
+        </nav>
+
+    </header>
+    <!-- </header> -->
+
+
+    <div class="container-fluid">
+        <main class="mx-md-5 mx-sm-1 px-md-2 px-sm-1">
+            <section id="single">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h3 class="h4" id="container-title">添加主机资源</h3>
+                </div>
+                <div class="bg-light px-md-3 py-md-3">
+                    <div class="alert alert-dismissible fade show d-none" role="alert">
+                        <span id="alert-text"></span>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+
+                    </div>
+                    <div class="container">
+                        <form class="d-inline">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">主机名称</span>
+                                </div>
+                                <input type="text" class="form-control" aria-label="Default" id="name">
+                            </div>
+                            <div class="input-group mb-3 ">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">主机地址</span>
+                                </div>
+                                <input type="text" class="form-control " aria-label="Default" id="ip">
+
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">主机端口</span>
+                                </div>
+                                <input type="number" id="port" class="form-control has-success has-feedback" value="22">
+
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">远程账号</span>
+                                </div>
+                                <input type="text" class="form-control " aria-label="Default" id="user">
+                            </div>
+                            <div class="input-group mb-3 " id="remote_pass">
+                                <div class="input-group-prepend ">
+                                    <span class="input-group-text">远程密码</span>
+                                </div>
+                                <input type="password" class="form-control text-danger" aria-label="Default" id="password">
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">主机描述</span>
+                                </div>
+                                <textarea class="form-control" id="desc" aria-label="With textarea"></textarea>
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <button class="btn btn-outline-dark" type="button" data-toggle="modal" ,
+                                        data-target="#groups_modal">所属组织</button>
+                                </div>
+                                <input type="text" class="form-control" id="groups_input" disabled placeholder="请点击按钮选择..">
+                            </div>
+                            <!-- Modal -->
+                            <div class="modal fade" id="groups_modal" tabindex="-1" role="dialog" aria-labelledby="host_groups"
+                                aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">主机组</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <select multiple class="form-control" id="group_select">
+                                            </select>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-outline-info " id="host_groups">刷新</button>
+                                            <button type="button" class="btn btn-info" data-dismiss="modal" id="groups_submit">确定</button>
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- modal end -->
+                            <div class="text-center">
+                                <button type="button" class="btn btn-info" id="copykey">公钥拷贝</button>
+                                <button type="button" class="btn btn-info d-none" id="submit">提交</button>
+                                <button type="button" class="btn btn-info d-none" id="update">更新</button>
+                                <input type="reset" class="btn btn-secondary mx-md-3 mx-sm-1" value="重置">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+            <section id="batch" class="d-none">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h3 class="h4">Hosts 批量添加主机资源</h3>
+                </div>
+                <div class="bg-light px-md-3 py-md-3">
+                    <div class="alert alert-dismissible fade show d-none" role="alert">
+                        <span id="alert-text"></span>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+
+                    </div>
+                    <div class="container">
+                        <!-- <form id="hostfile"  action="http://172.16.1.121:8080/api/asb/text/" method="post" enctype="multipart/form-data"> -->
+                        <div class="form-group">
+                            <p class="text-secondary font-italic my-md-2">接收.csv格式文件<br>格式：<br>
+                                主机名:地址:端口:账号:密码:描述:所属组(0－多个, 以空格分隔) <br>
+                                "host1"，"172.16.1.1"，22，"root"，"123456"，"web server"，"websgroups dbgroups"
+                            </p>
+                            <!-- <input type="text" name="text"> -->
+                            <input type="file" class="form-control-file" name="filename" id="hostfile">
+                        </div>
+                        <div class="text-center">
+                            <!-- <button type="button" class="btn btn-info" id="batch-submit">提交</button>  -->
+
+                            <button class="btn btn-info " id="batch-submit" type="button">
+                                <span class="" role="status" aria-hidden="true" id="submit-status"></span>
+                                <span id="submit-text">发送指令</span>
+                            </button>
+                        </div>
+                        <!-- </form> -->
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+
+
+    <footer>
+
+    </footer>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="static/js/jquery.min.js"></script>
+    <script src="static/js/popper.min.js"></script>
+    <script src="static/js/bootstrap.min.js"></script>
+    <script src="static/js/main.js"></script>
+
+    <script>
+        // 获取url参数
+        function getQueryVariable(variable) {
+            var query = window.location.search.substring(1);
+            var vars = query.split("&");
+            for (var i = 0; i < vars.length; i++) {
+                var pair = vars[i].split("=");
+                if (pair[0] == variable) {
+                    return pair[1];
+                }
+            }
+            return (false);
+        }
+
+        // 公钥拷贝
+        function copyKey() {
+            let user_token = getCookie("user_token");
+            let ip = $("#ip").val();
+            let port = $("#port").val();
+            let user = $("#user").val();
+            let password = $("#password").val();
+            let init_url = "http://172.16.1.121:8080/api/asb/copykey/?token=" + user_token;
+            let data = {
+                "ip": ip,
+                "port": port,
+                "user": user,
+                "password": password,
+            }
+            $.ajax({
+                url: init_url,
+                type: 'POST',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(data),
+                success: function (res) {
+                    showAlert("Key copy success!", level = "alert-success");
+                    $("#copykey").addClass("d-none");
+                    $("#submit").removeClass("d-none");
+                },
+                error: function (e) {
+                    showAlert(e.results);
+                }
+            })
+        }
+
+        // 添加、修改主机信息
+        function uploadHostInfo(action) {
+            let user_token = getCookie("user_token");
+            let name = $("#name").val();
+            let ip = $("#ip").val();
+            let port = $("#port").val();
+            let desc = $("#desc").val();
+            let user = $("#user").val();
+            let username = getCookie("username");
+            let groups = $("#groups_input").val();
+            let data = {
+                "name": name,
+                "ip": ip,
+                "port": port,
+                "desc": desc,
+                "user": user,
+                // "create_time": null,
+                "create_user": username,
+                "groups": groups
+            };
+            if (action == "add") {
+                data.create_time = null;
+                var method = "POST";
+                var init_url = "http://172.16.1.121:8080/api/asb/host/?token=" + user_token;
+            } else {
+                var param_id = getQueryVariable("id");
+                var method = "PUT";
+                var init_url = "http://172.16.1.121:8080/api/asb/host/" + param_id + "/?token=" + user_token;
+            }
+            console.log(data);
+            $.ajax({
+                url: init_url,
+                type: method,
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(data),
+                success: function (res) {
+                    // console.log(res);
+                    showAlert("主机 " + name + " 信息提交成功", level = "alert-success");
+                },
+                error: function (e) {
+                    // console.log("error", e);
+                    let error_text = e.responseText;
+                    // console.log(error_text);
+                    showAlert(error_text);
+                }
+            })
+        }
+
+        $(document).ready(function () {
+            // 检查是否登录，若没有登录则跳转到登录页面
+            checkCookie();
+
+            // 用户名
+            var user_alias = getCookie("user_alias");
+            $("#user-opt").text(user_alias);
+
+            // 鼠标悬浮显示二级菜单 
+            $(".dropdown").mouseover(function () {
+                $(this).addClass("show");
+                $(this).children(".dropdown-menu").addClass("show");
+            })
+            $(".dropdown").mouseleave(function () {
+                $(this).removeClass("show");
+                $(this).children(".dropdown-menu").removeClass("show");
+            })
+
+            // 判断页面显示添加主机还是编辑主机，type=single/batch/edit
+            var param_type = getQueryVariable("type");
+            if (param_type == "batch") {
+                $("#single").addClass("d-none");
+                $("#batch").removeClass("d-none");
+            } else if (param_type == 'edit') {
+                $("#container-title").text("编辑主机信息");
+                var param_id = getQueryVariable("id");
+                $("#copykey").addClass("d-none");
+                $("#submit").addClass("d-none");
+                $("#remote_pass").addClass("d-none");
+                $("#update").removeClass("d-none");
+                $("#name").attr("disabled", "disabled");
+                let user_token = getCookie("user_token");
+                let init_url = "http://172.16.1.121:8080/api/asb/host/" + param_id + "/?token=" + user_token;
+                $.ajax({
+                    url: init_url,
+                    type: "GET",
+                    success: function (res) {
+                        $("#name").val(res.name);
+                        $("#ip").val(res.ip);
+                        $("#port").val(res.port);
+                        $("#user").val(res.user);
+                        $("#desc").val(res.desc);
+                        let groups = new Array();
+                        $.each(res.group, function (indexInArray, valueOfElement) {
+                            groups.push(valueOfElement.name);
+                        });
+                        $("#groups_input").val(groups);
+                    },
+                    error: function (e) {
+                        showAlert("获取主机信息失败", e);
+                    }
+                })
+            }
+
+            // 更新主机信息
+            $("#update").click(function () {
+                uploadHostInfo("edit");
+            });
+
+
+            // 选择所属组
+            $("#host_groups").click(function () {
+                let user_token = getCookie("user_token");
+                let init_url = "http://172.16.1.121:8080/api/asb/group/?token=" + user_token;
+                $("#group_select").html('');
+                $.ajax({
+                    url: init_url,
+                    type: 'GET',
+                    success: function (res) {
+                        // console.log(res);
+                        let groups = res.results
+                        $.each(groups, function (indexInArray, valueOfElement) {
+                            $("#group_select").append('<option value="' +
+                                valueOfElement.name + '">' + valueOfElement.name +
+                                '</option>');
+                        });
+                    }
+                })
+            });
+            $("#groups_submit").click(function () {
+                let groups = new Array();
+                $("#group_select option:selected").each(function () {
+                    groups.push($(this).val());
+                })
+                $("#groups_input").val(groups);
+            })
+
+            // 公钥拷贝
+            $("#copykey").click(function () {
+                copyKey();
+            });
+
+            // 提交按钮，添加主机
+            $("#submit").click(function () {
+                uploadHostInfo("add");
+            });
+
+            // 批量添加，上传文件
+            // ...................................
+            $("#batch-submit").click(function () {
+                $(this).attr("disabled", "disabled");
+                $("#submit-text").text("load...");
+                $("#submit-status").addClass("spinner-border spinner-border-sm");
+                let user_token = getCookie("user_token");
+                var formData = new FormData();
+                formData.append("file", document.getElementById("hostfile").files[0]);
+                $.ajax({
+                    url: "http://172.16.1.121:8080/api/asb/hostbatch/?token=" + user_token,
+                    type: "POST",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (res) {
+                        $("#batch-submit").removeAttr("disabled");
+                        $("#submit-text").text("提交");
+                        $("#submit-status").attr("class","");
+                        if (res.code != 2000){
+                            showAlert(res.msg);
+                        }
+                        console.log(res);
+                    },
+                    error: function (e) {
+                        $("#batch-submit").removeAttr("disabled");
+                        $("#submit-text").text("提交");
+                        $("#submit-status").attr("class", "");
+                        showAlert(e);
+                        console.log(e);
+                    }
+                })
+                // console.log(formData.has('file'));
+            })
+        });
+    </script>
+</body>
+
+</html>

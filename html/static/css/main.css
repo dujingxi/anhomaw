@@ -1,0 +1,49 @@
+
+/* 粘住侧边栏 */
+.sidebar-sticky {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 48px;
+    height: calc(100vh - 48px);
+    padding-top: .5rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+/* 侧边栏颜色 */
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #138496;
+}
+
+a {
+    color: #138496;
+}
+
+/* pagination 分页 */
+.page-item.active .page-link {
+    background-color: #138496;
+    border-color: #138496;
+}
+.page-link {
+    color: #138496;
+}
+.page-link:hover {
+    color: #138496;
+}
+
+/* 表格字体设置 */
+table {
+    table-layout: fixed;
+}
+.table-text {
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+.table td {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-break: keep-all;
+}
